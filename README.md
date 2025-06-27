@@ -1,61 +1,61 @@
-# CV Creator - Aplikasi Pembuat CV Online
+# CV Creator - Online CV Builder Application
 
-## 📋 Daftar Isi
+## 📋 Table of Contents
 - [Overview](#overview)
-- [Fitur Utama](#fitur-utama)
-- [Teknologi yang Digunakan](#teknologi-yang-digunakan)
-- [Arsitektur Aplikasi](#arsitektur-aplikasi)
-- [Struktur File](#struktur-file)
-- [Implementasi Fitur Kunci](#implementasi-fitur-kunci)
-- [Instalasi dan Setup](#instalasi-dan-setup)
-- [Cara Penggunaan](#cara-penggunaan)
+- [Key Features](#key-features)
+- [Technologies Used](#technologies-used)
+- [Application Architecture](#application-architecture)
+- [File Structure](#file-structure)
+- [Key Feature Implementation](#key-feature-implementation)
+- [Installation and Setup](#installation-and-setup)
+- [How to Use](#how-to-use)
 - [Database Schema](#database-schema)
 - [Security Considerations](#security-considerations)
-- [Kesimpulan](#kesimpulan)
+- [Conclusion](#conclusion)
 
 ## 📖 Overview
 
-CV Creator adalah aplikasi web berbasis PHP yang memungkinkan pengguna untuk membuat Curriculum Vitae (CV) secara online dengan mudah dan profesional. Aplikasi ini menggunakan pola arsitektur MVC (Model-View-Controller) dan menyediakan fitur export ke PDF serta upload foto profil.
+CV Creator is a PHP-based web application that allows users to create professional Curriculum Vitae (CV) online with ease. The application uses MVC (Model-View-Controller) architectural pattern and provides PDF export functionality and profile photo upload features.
 
-### Tujuan Aplikasi
-- Mempermudah pembuatan CV dengan interface yang user-friendly
-- Menyediakan template CV yang profesional
-- Memungkinkan export CV dalam format PDF
-- Menyimpan data CV untuk dapat diakses kembali
+### Application Goals
+- Simplify CV creation with a user-friendly interface
+- Provide professional CV templates
+- Enable CV export in PDF format
+- Store CV data for future access
 
-## ✨ Fitur Utama
+## ✨ Key Features
 
-### 1. **Manajemen Data Personal**
-- Input informasi pribadi (nama, email, telepon, alamat)
-- Upload foto profil dengan preview
-- Validasi input data
+### 1. **Personal Data Management**
+- Input personal information (name, email, phone, address)
+- Upload profile photo with preview
+- Input data validation
 
-### 2. **Manajemen Pengalaman Kerja**
-- Tambah/hapus pengalaman kerja secara dinamis
-- Input detail posisi, perusahaan, durasi, dan deskripsi
-- Interface yang responsive
+### 2. **Work Experience Management**
+- Add/remove work experience dynamically
+- Input position details, company, duration, and description
+- Responsive interface
 
-### 3. **Manajemen Pendidikan**
-- Tambah/hapus riwayat pendidikan
-- Input detail gelar, institusi, tahun, dan nilai
-- Form dinamis yang mudah digunakan
+### 3. **Education Management**
+- Add/remove education history
+- Input degree details, institution, year, and grade
+- Dynamic forms that are easy to use
 
-### 4. **Manajemen Skills**
-- Tambah skills dengan system tag
-- Hapus skills secara individual
-- Interface yang interaktif
+### 4. **Skills Management**
+- Add skills with tag system
+- Remove skills individually
+- Interactive interface
 
-### 5. **Export PDF**
-- Generate CV dalam format PDF menggunakan FPDF
-- Layout profesional dan terstruktur
-- Include foto profil dalam PDF
+### 5. **PDF Export**
+- Generate CV in PDF format using FPDF
+- Professional and structured layout
+- Include profile photo in PDF
 
-### 6. **Galeri CV**
-- Tampilkan semua CV yang telah dibuat
-- Preview informasi CV
-- Akses cepat untuk download PDF
+### 6. **CV Gallery**
+- Display all created CVs
+- CV information preview
+- Quick access for PDF download
 
-## 🛠 Teknologi yang Digunakan
+## 🛠 Technologies Used
 
 ### Backend
 - **PHP 7.4+** - Server-side programming
@@ -65,7 +65,7 @@ CV Creator adalah aplikasi web berbasis PHP yang memungkinkan pengguna untuk mem
 
 ### Frontend
 - **HTML5** - Structure markup
-- **CSS3** - Styling dan layout
+- **CSS3** - Styling and layout
 - **JavaScript (Vanilla)** - Interactive functionality
 - **Font Awesome** - Icons
 
@@ -75,7 +75,7 @@ CV Creator adalah aplikasi web berbasis PHP yang memungkinkan pengguna untuk mem
 - **Repository Pattern** - Data access layer
 - **Service Layer Pattern** - Business logic separation
 
-## 🏗 Arsitektur Aplikasi
+## 🏗 Application Architecture
 
 ```
 CV Creator Application
@@ -95,15 +95,15 @@ CV Creator Application
     └── Database.php
 ```
 
-### Penjelasan Layer:
-- **Presentation**: Handle UI dan user interaction
+### Layer Explanation:
+- **Presentation**: Handle UI and user interaction
 - **Controller**: Orchestrate business flow
-- **Service**: Business logic dan external operations
+- **Service**: Business logic and external operations
 - **Repository**: Data access abstraction
 - **Model**: Data representation
 - **Infrastructure**: External dependencies (database)
 
-## 📁 Struktur File
+## 📁 File Structure
 
 ```
 cv-creator/
@@ -127,11 +127,11 @@ cv-creator/
 └── create_tables.sql      # Database schema
 ```
 
-## 🔧 Implementasi Fitur Kunci
+## 🔧 Key Feature Implementation
 
-### 1. **Upload Image dengan Validation**
+### 1. **Image Upload with Validation**
 
-#### FileUploadService.php - Implementasi Detail
+#### FileUploadService.php - Detailed Implementation
 
 ```php
 class FileUploadService {
@@ -140,24 +140,24 @@ class FileUploadService {
     private $maxSize;
     
     public function __construct() {
-        // Konfigurasi upload
+        // Upload configuration
         $this->uploadDir = 'uploads/';
         $this->allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
         $this->maxSize = 5 * 1024 * 1024; // 5MB
         
-        // Buat direktori jika belum ada
+        // Create directory if not exists
         if (!file_exists($this->uploadDir)) {
             mkdir($this->uploadDir, 0777, true);
         }
     }
     
     public function uploadImage($file) {
-        // Validasi file
+        // Validate file
         if (!$this->validateFile($file)) {
             throw new Exception('File validation failed');
         }
         
-        // Generate nama file unik
+        // Generate unique filename
         $filename = $this->generateUniqueFilename($file['name']);
         $targetPath = $this->uploadDir . $filename;
         
@@ -170,17 +170,17 @@ class FileUploadService {
     }
     
     private function validateFile($file) {
-        // Cek error upload
+        // Check upload error
         if ($file['error'] !== UPLOAD_ERR_OK) {
             return false;
         }
         
-        // Cek ukuran file
+        // Check file size
         if ($file['size'] > $this->maxSize) {
             return false;
         }
         
-        // Cek tipe file
+        // Check file type
         if (!in_array($file['type'], $this->allowedTypes)) {
             return false;
         }
@@ -195,7 +195,7 @@ class FileUploadService {
 }
 ```
 
-#### Frontend Implementation - Photo Upload dengan Preview
+#### Frontend Implementation - Photo Upload with Preview
 
 ```javascript
 // Photo Preview Implementation
@@ -218,16 +218,16 @@ document.getElementById('profilePhoto').addEventListener('change', function(e) {
 });
 ```
 
-#### Keamanan Upload:
-- **Validasi tipe file** menggunakan MIME type
-- **Batasan ukuran file** maksimal 5MB
-- **Nama file unik** untuk mencegah collision
-- **Direktori terpisah** untuk uploaded files
-- **Validasi error upload** dari $_FILES
+#### Upload Security Features:
+- **File type validation** using MIME type
+- **File size limitation** maximum 5MB
+- **Unique filename** to prevent collision
+- **Separate directory** for uploaded files
+- **Upload error validation** from $_FILES
 
-### 2. **Export PDF menggunakan FPDF**
+### 2. **PDF Export using FPDF**
 
-#### PDFService.php - Implementasi Detail
+#### PDFService.php - Detailed Implementation
 
 ```php
 require_once 'fpdf/fpdf.php';
@@ -243,15 +243,15 @@ class PDFService {
         $this->pdf->AddPage();
         $this->pdf->SetFont('Arial', 'B', 16);
         
-        // Header dengan nama
+        // Header with name
         $personalInfo = $cv->getPersonalInfo();
         $this->pdf->Cell(0, 10, $personalInfo['fullName'] ?? 'N/A', 0, 1, 'C');
         
-        // Profile Photo dengan positioning
+        // Profile Photo with positioning
         if ($cv->getProfilePhoto()) {
             $photoPath = 'uploads/' . $cv->getProfilePhoto();
             if (file_exists($photoPath)) {
-                // Posisi: X=10, Y=30, Width=30, Height=30
+                // Position: X=10, Y=30, Width=30, Height=30
                 $this->pdf->Image($photoPath, 10, 30, 30, 30);
             }
         }
@@ -295,13 +295,13 @@ class PDFService {
         $this->pdf->SetFont('Arial', '', 12);
         
         foreach ($experiences as $exp) {
-            // Job title dan company
+            // Job title and company
             $this->pdf->Cell(0, 8, $exp['position'] . ' at ' . $exp['company'], 0, 1);
             
             // Duration
             $this->pdf->Cell(0, 6, $exp['duration'], 0, 1);
             
-            // Description dengan word wrap
+            // Description with word wrap
             $this->pdf->MultiCell(0, 6, $exp['description']);
             $this->pdf->Ln(5);
         }
@@ -329,24 +329,24 @@ class PDFService {
     }
     
     public function output($filename = 'CV.pdf') {
-        // Download file PDF
+        // Download PDF file
         $this->pdf->Output('D', $filename);
     }
 }
 ```
 
-#### Fitur FPDF yang Digunakan:
-- **AddPage()**: Membuat halaman baru
-- **SetFont()**: Mengatur font dan ukuran
-- **Cell()**: Membuat cell untuk teks
-- **MultiCell()**: Cell dengan word wrap
-- **Image()**: Insert gambar dengan positioning
+#### FPDF Features Used:
+- **AddPage()**: Create new page
+- **SetFont()**: Set font and size
+- **Cell()**: Create cell for text
+- **MultiCell()**: Cell with word wrap
+- **Image()**: Insert image with positioning
 - **Ln()**: Line break
 - **Output()**: Export PDF (D = Download)
 
 ### 3. **Dynamic Form Management**
 
-#### JavaScript Implementation untuk Dynamic Sections
+#### JavaScript Implementation for Dynamic Sections
 
 ```javascript
 // Experience Management
@@ -384,7 +384,7 @@ function addExperience() {
     updateRemoveButtons('experience');
 }
 
-// Skills Management dengan Tag System
+// Skills Management with Tag System
 let skills = [];
 
 function addSkill() {
@@ -415,17 +415,17 @@ function updateSkillsDisplay() {
 }
 ```
 
-## ⚙️ Instalasi dan Setup
+## ⚙️ Installation and Setup
 
-### Persyaratan System
-- PHP 7.4 atau lebih tinggi
-- MySQL 5.7 atau lebih tinggi
+### System Requirements
+- PHP 7.4 or higher
+- MySQL 5.7 or higher
 - Web server (Apache/Nginx)
 - FPDF library
 
-### Langkah Instalasi
+### Installation Steps
 
-1. **Clone atau Download Project**
+1. **Clone or Download Project**
 ```bash
 git clone [repository-url]
 cd cv-creator
@@ -433,14 +433,14 @@ cd cv-creator
 
 2. **Setup Database**
 ```sql
--- Buat database
+-- Create database
 CREATE DATABASE cv_creator;
 
 -- Import schema
 mysql -u username -p cv_creator < create_tables.sql
 ```
 
-3. **Konfigurasi Database**
+3. **Configure Database**
 Edit file `config/database.php`:
 ```php
 private function __construct() {
@@ -459,8 +459,8 @@ chmod 644 *.php
 ```
 
 5. **Download FPDF Library**
-- Download FPDF dari http://www.fpdf.org/
-- Extract ke folder `fpdf/`
+- Download FPDF from http://www.fpdf.org/
+- Extract to `fpdf/` folder
 
 6. **Setup Virtual Host (Optional)**
 ```apache
@@ -470,43 +470,43 @@ chmod 644 *.php
 </VirtualHost>
 ```
 
-## 📱 Cara Penggunaan
+## 📱 How to Use
 
-### 1. Mengakses Aplikasi
-- Buka browser dan akses URL aplikasi
-- Anda akan melihat halaman utama dengan daftar CV
+### 1. Accessing the Application
+- Open browser and access the application URL
+- You will see the main page with CV list
 
-### 2. Membuat CV Baru
-1. Klik tombol "Create New CV"
-2. Isi formulir dengan informasi pribadi
-3. Upload foto profil (opsional)
-4. Tambah pengalaman kerja
-5. Tambah riwayat pendidikan
-6. Tambah skills
-7. Klik "Create CV"
+### 2. Creating New CV
+1. Click "Create New CV" button
+2. Fill the form with personal information
+3. Upload profile photo (optional)
+4. Add work experience
+5. Add education history
+6. Add skills
+7. Click "Create CV"
 
-### 3. Mengelola CV
-- Lihat daftar CV di halaman utama
-- Download CV dalam format PDF
-- Setiap CV menampilkan preview informasi
+### 3. Managing CVs
+- View CV list on the main page
+- Download CV in PDF format
+- Each CV displays information preview
 
-### 4. Export PDF
-- Klik tombol "Download PDF" pada CV yang diinginkan
-- File PDF akan otomatis terdownload
-- PDF berisi semua informasi yang telah diinput
+### 4. PDF Export
+- Click "Download PDF" button on desired CV
+- PDF file will automatically download
+- PDF contains all inputted information
 
 ## 🗄 Database Schema
 
-### Tabel: `cvs`
+### Table: `cvs`
 
 ```sql
 CREATE TABLE cvs (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    personal_info JSON,           -- Data personal (nama, email, phone, address)
-    experience JSON,              -- Array pengalaman kerja
-    education JSON,               -- Array riwayat pendidikan
-    skills JSON,                  -- Array skills
-    profile_photo VARCHAR(255),   -- Nama file foto profil
+    personal_info JSON,           -- Personal data (name, email, phone, address)
+    experience JSON,              -- Work experience array
+    education JSON,               -- Education history array
+    skills JSON,                  -- Skills array
+    profile_photo VARCHAR(255),   -- Profile photo filename
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -514,7 +514,7 @@ CREATE TABLE cvs (
 CREATE INDEX idx_created_at ON cvs(created_at);
 ```
 
-### Format Data JSON
+### JSON Data Format
 
 **personal_info:**
 ```json
@@ -558,22 +558,22 @@ CREATE INDEX idx_created_at ON cvs(created_at);
 ## 🔒 Security Considerations
 
 ### 1. File Upload Security
-- **Validasi tipe file** menggunakan MIME type
-- **Batasan ukuran file** untuk mencegah DoS
-- **Nama file random** untuk mencegah path traversal
-- **Direktori upload** di luar web root (recommended)
+- **File type validation** using MIME type
+- **File size limitation** to prevent DoS
+- **Random filename** to prevent path traversal
+- **Upload directory** outside web root (recommended)
 
 ### 2. Database Security
-- **Prepared statements** untuk mencegah SQL injection
-- **Input validation** dan sanitization
-- **Error handling** yang tidak expose sensitive info
+- **Prepared statements** to prevent SQL injection
+- **Input validation** and sanitization
+- **Error handling** that doesn't expose sensitive info
 
 ### 3. General Security
-- **Input validation** di semua form fields
-- **Output escaping** menggunakan `htmlspecialchars()`
-- **Session management** untuk authentication (jika ditambahkan)
+- **Input validation** on all form fields
+- **Output escaping** using `htmlspecialchars()`
+- **Session management** for authentication (if added)
 
-### Contoh Implementasi Security:
+### Security Implementation Example:
 
 ```php
 // Input validation
@@ -608,17 +608,17 @@ public function store() {
 ## 📊 Performance Optimization
 
 ### 1. Database Optimization
-- **Index** pada kolom yang sering di-query
-- **JSON** data type untuk flexible schema
-- **Connection pooling** dengan Singleton pattern
+- **Index** on frequently queried columns
+- **JSON** data type for flexible schema
+- **Connection pooling** with Singleton pattern
 
 ### 2. File Handling
 - **Unique filename** generation
-- **Lazy loading** untuk images
+- **Lazy loading** for images
 - **File size optimization**
 
 ### 3. Frontend Optimization
-- **Vanilla JavaScript** untuk minimal overhead
+- **Vanilla JavaScript** for minimal overhead
 - **CSS minification** (production)
 - **Image compression** for uploads
 
@@ -626,16 +626,16 @@ public function store() {
 
 ### 1. PDF Template Customization
 ```php
-// Modifikasi layout PDF
+// Modify PDF layout
 class PDFService {
     private function customizeLayout() {
-        // Ubah font
+        // Change font
         $this->pdf->SetFont('Times', 'B', 18);
         
-        // Ubah warna
+        // Change color
         $this->pdf->SetTextColor(50, 50, 50);
         
-        // Tambah header/footer
+        // Add header/footer
         $this->addHeader();
         $this->addFooter();
     }
@@ -643,9 +643,9 @@ class PDFService {
 ```
 
 ### 2. Form Field Customization
-- Tambah field baru di model CV
+- Add new fields in CV model
 - Update database schema
-- Modifikasi form di create.php
+- Modify form in create.php
 - Update PDF generation
 
 ### 3. Styling Customization
@@ -672,9 +672,9 @@ class PDFService {
 4. **Automated Testing** suite
 5. **Docker Containerization**
 
-## 📝 Kesimpulan
+## 📝 Conclusion
 
-CV Creator adalah aplikasi web yang demonstrasi implementasi komprehensif dari berbagai konsep pemrograman web modern:
+CV Creator is a web application that demonstrates comprehensive implementation of modern web programming concepts:
 
 ### **Technical Achievement:**
 - ✅ **MVC Architecture** - Clean separation of concerns
@@ -693,19 +693,19 @@ CV Creator adalah aplikasi web yang demonstrasi implementasi komprehensif dari b
 - 🎯 **Scalable Architecture** - Easy to extend and maintain
 
 ### **Learning Outcomes:**
-Aplikasi ini mendemonstrasikan pemahaman mendalam tentang:
-- **Backend Development** dengan PHP dan MySQL
-- **Frontend Development** dengan HTML, CSS, dan JavaScript
-- **File Handling** dan upload management
+This application demonstrates deep understanding of:
+- **Backend Development** with PHP and MySQL
+- **Frontend Development** with HTML, CSS, and JavaScript
+- **File Handling** and upload management
 - **PDF Generation** library integration
-- **Database Design** dan optimization
+- **Database Design** and optimization
 - **Security Best Practices**
-- **Code Organization** dan architecture patterns
+- **Code Organization** and architecture patterns
 
-Aplikasi CV Creator ini merupakan foundation yang solid untuk pengembangan aplikasi web yang lebih kompleks dan dapat dijadikan portfolio project yang menunjukkan kemampuan full-stack development.
+This CV Creator application provides a solid foundation for developing more complex web applications and can serve as a portfolio project showcasing full-stack development capabilities.
 
 ---
 
-**Dibuat untuk Mata Kuliah Pemrograman Website**  
-**Teknologi:** PHP, MySQL, JavaScript, HTML5, CSS3, FPDF  
-**Pattern:** MVC, Repository, Service Layer, Singleton
+**Created for Web Programming Course**  
+**Technologies:** PHP, MySQL, JavaScript, HTML5, CSS3, FPDF  
+**Patterns:** MVC, Repository, Service Layer, Singleton
