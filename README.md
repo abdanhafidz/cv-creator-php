@@ -1,5 +1,7 @@
 # CV Creator - Online CV Builder Application
 [Deployment Link : abdanhafidz.com/cv-creator](https://abdanhafidz.com/cv-creator/)
+![Screen Recording 2025-06-27 232708](https://github.com/user-attachments/assets/525e91fa-210c-4b8a-a1c0-042a7cee0d44)
+
 ## 📋 Table of Contents
 - [Overview](#overview)
 - [Key Features](#key-features)
